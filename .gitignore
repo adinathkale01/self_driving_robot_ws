@@ -1,0 +1,13 @@
+
+# ROS 2 build folders (just in case)
+build/
+install/
+log/
+
+# Python
+__pycache__/
+*.pyc
+
+# IDEs
+.vscode/
+.idea/
