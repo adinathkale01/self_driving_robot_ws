@@ -11,3 +11,9 @@ __pycache__/
 # IDEs
 .vscode/
 .idea/
+
+# Ignore SSH keys
+*.pub
+mygitssh
+mygitssh
+mygitssh.pub
