@@ -7,12 +7,52 @@ endif()
 
 
 find_package(ament_cmake REQUIRED)
+find_package(ament_cmake_python REQUIRED)
+find_package(rclpy REQUIRED)
+find_package(std_msgs REQUIRED)
+find_package(geometry_msgs REQUIRED)
+find_package(rclcpp REQUIRED)
+find_package(Eigen3 REQUIRED NO_MODULE)
+
+ament_python_install_package(${PROJECT_NAME})
+
+include_directories(include)
+# include_directories(${EIGEN_INCLUDE_DIR})
+
+add_executable(simple_controller src/simple_controller.cpp)
+target_include_directories(simple_controller PUBLIC
+  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+  $<INSTALL_INTERFACE:include>
+)
+
+ament_target_dependencies(simple_controller rclcpp geometry_msgs std_msgs)
+
+target_link_libraries(simple_controller
+  Eigen3::Eigen
+)
+
+
+
+install(
+  DIRECTORY include 
+  DESTINATION include
+)
+
+install(TARGETS 
+   simple_controller
+   DESTINATION lib/${PROJECT_NAME}
+
+)
 
 install(
   DIRECTORY config launch
   DESTINATION share/${PROJECT_NAME}
 
 )
+
+install(PROGRAMS 
+  ${PROJECT_NAME}/simple_controller.py
+  DESTINATION lib/${PROJECT_NAME})
 
 
 if(BUILD_TESTING)
