@@ -27,7 +27,7 @@ add_executable(simple_turtlesim_kinematics src/simple_turtlesim_kinematics.cpp)
 ament_target_dependencies(simple_turtlesim_kinematics rclcpp turtlesim)
 
 add_executable(simple_tf_kinematics src/simple_tf_kinematics.cpp)
-ament_target_dependencies(simple_tf_kinematics rclcpp tf2_ros geometry_msgs)
+ament_target_dependencies(simple_tf_kinematics rclcpp tf2_ros geometry_msgs bumperbot_msgs)
 
 add_executable(simple_service_server src/simple_service_server.cpp)
 ament_target_dependencies(simple_service_server rclcpp tf2_ros bumperbot_msgs)
