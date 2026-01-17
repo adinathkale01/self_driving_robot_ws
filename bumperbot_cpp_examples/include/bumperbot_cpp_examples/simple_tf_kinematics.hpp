@@ -8,6 +8,7 @@
 #include <tf2_ros/transform_listener.h>
 #include <geometry_msgs/msg/transform_stamped.hpp>
 #include <bumperbot_msgs/srv/get_transform.hpp>
+#include <tf2/LinearMath/Quaternion.h>
 
 #include <memory>
 
@@ -32,6 +33,9 @@ private:
 
     double x_increment_;
     double last_x_;
+    int rotations_counter_;
+    tf2::Quaternion last_orientation_;
+    tf2::Quaternion orientation_increment_;
 
     void timerCallback();
     

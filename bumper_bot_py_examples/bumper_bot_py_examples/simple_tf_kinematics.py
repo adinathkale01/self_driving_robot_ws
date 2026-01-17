@@ -7,6 +7,7 @@ from tf2_ros.transform_listener import TransformListener
 from geometry_msgs.msg import TransformStamped
 
 from bumperbot_msgs.srv import GetTransform
+from tf_transformations import quaternion_from_euler, quaternion_multiply,quaternion_inverse
 
 
 
@@ -22,6 +23,9 @@ class SimpleTfKinematics(Node):
 
         self.x_increment = 0.05
         self.last_x = 0.0
+        self.rotation_counter_ = 0
+        self.last_orientation_ = quaternion_from_euler(0, 0, 0)
+        self.orientation_increment_ = quaternion_from_euler(0, 0, 0.05)
 
         self.tf_buffer_ = Buffer()
         self.tf_listener_ = TransformListener(self.tf_buffer_, self)
@@ -52,15 +56,21 @@ class SimpleTfKinematics(Node):
         self.dynamic_transform_stamped_.child_frame_id = "bumperbot_base"
         self.dynamic_transform_stamped_.transform.translation.x = self.last_x + self.x_increment
         self.dynamic_transform_stamped_.transform.translation.y = 0.0
-        self.dynamic_transform_stamped_.transform.translation.z = 0.3
-        self.dynamic_transform_stamped_.transform.rotation.x = 0.0
-        self.dynamic_transform_stamped_.transform.rotation.y = 0.0
-        self.dynamic_transform_stamped_.transform.rotation.z = 0.0
-        self.dynamic_transform_stamped_.transform.rotation.w = 1.0
+        self.dynamic_transform_stamped_.transform.translation.z = 0.0
+        q = quaternion_multiply(self.last_orientation_,self.orientation_increment_)
+        self.dynamic_transform_stamped_.transform.rotation.x = q[0] #0.0
+        self.dynamic_transform_stamped_.transform.rotation.y = q[1] #0.0
+        self.dynamic_transform_stamped_.transform.rotation.z = q[2] #0.0
+        self.dynamic_transform_stamped_.transform.rotation.w = q[3] #1.0
 
         self.dynamic_tf_brodacster_.sendTransform(self.dynamic_transform_stamped_)
 
         self.last_x = self.dynamic_transform_stamped_.transform.translation.x
+        self.rotation_counter_+= 1
+        self.last_orientation_= q
+        if self.rotation_counter_>=100:
+            self.orientation_increment_= quaternion_inverse(self.orientation_increment_)
+            self.rotation_counter_= 0
 
 
     def getTransformCallback(self,req,res):
