@@ -11,6 +11,10 @@ find_package(ament_cmake_python REQUIRED)
 find_package(rclpy REQUIRED)
 find_package(std_msgs REQUIRED)
 find_package(geometry_msgs REQUIRED)
+find_package(sensor_msgs REQUIRED)
+find_package(nav_msgs REQUIRED)
+find_package(tf2 REQUIRED)
+find_package(tf2_ros REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(Eigen3 REQUIRED NO_MODULE)
 
@@ -25,11 +29,25 @@ target_include_directories(simple_controller PUBLIC
   $<INSTALL_INTERFACE:include>
 )
 
-ament_target_dependencies(simple_controller rclcpp geometry_msgs std_msgs)
+ament_target_dependencies(simple_controller rclcpp geometry_msgs std_msgs sensor_msgs nav_msgs tf2 tf2_ros)
+
+
+add_executable(noisy_controller src/noisy_controller.cpp)
+target_include_directories(noisy_controller PUBLIC
+  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+  $<INSTALL_INTERFACE:include>
+)
+
+ament_target_dependencies(noisy_controller rclcpp geometry_msgs std_msgs sensor_msgs nav_msgs tf2 tf2_ros)
 
 target_link_libraries(simple_controller
   Eigen3::Eigen
 )
+
+target_link_libraries(noisy_controller
+  Eigen3::Eigen
+)
+
 
 
 
@@ -40,6 +58,7 @@ install(
 
 install(TARGETS 
    simple_controller
+   noisy_controller
    DESTINATION lib/${PROJECT_NAME}
 
 )
@@ -52,6 +71,8 @@ install(
 
 install(PROGRAMS 
   ${PROJECT_NAME}/simple_controller.py
+  ${PROJECT_NAME}/noisy_controller.py
+  ${PROJECT_NAME}/teleop_robot.py
   DESTINATION lib/${PROJECT_NAME})
 
 

@@ -29,7 +29,7 @@ class KeyboardTeleop(Node):
     def __init__(self):
         super().__init__('keyboard_teleop')
         self.pub = self.create_publisher(
-            TwistStamped, '/bumperbot_controller/cmd_vel', 10
+            TwistStamped, 'bumperbot_controller/cmd_vel', 10
         )
         self.get_logger().info("Keyboard Teleop Started. Use arrow keys to move.")
 
