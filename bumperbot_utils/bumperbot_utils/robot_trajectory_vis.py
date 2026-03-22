@@ -18,8 +18,6 @@ class RobotPathVis(Node):
         self.trajectory_ = Path()
         
       
-
-
     def odometryCallback(self,msg: Odometry):
         self.trajectory_.header.frame_id = msg.header.frame_id
 

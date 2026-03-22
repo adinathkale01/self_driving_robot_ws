@@ -40,6 +40,16 @@ target_include_directories(noisy_controller PUBLIC
 
 ament_target_dependencies(noisy_controller rclcpp geometry_msgs std_msgs sensor_msgs nav_msgs tf2 tf2_ros)
 
+
+add_executable(twist_relay src/twist_relay.cpp)
+target_include_directories(twist_relay PUBLIC
+  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+  $<INSTALL_INTERFACE:include>
+)
+
+ament_target_dependencies(twist_relay rclcpp geometry_msgs)
+
+
 target_link_libraries(simple_controller
   Eigen3::Eigen
 )
@@ -47,8 +57,6 @@ target_link_libraries(simple_controller
 target_link_libraries(noisy_controller
   Eigen3::Eigen
 )
-
-
 
 
 install(
@@ -59,6 +67,7 @@ install(
 install(TARGETS 
    simple_controller
    noisy_controller
+   twist_relay
    DESTINATION lib/${PROJECT_NAME}
 
 )
@@ -73,6 +82,7 @@ install(PROGRAMS
   ${PROJECT_NAME}/simple_controller.py
   ${PROJECT_NAME}/noisy_controller.py
   ${PROJECT_NAME}/teleop_robot.py
+  ${PROJECT_NAME}/twist_relay.py
   DESTINATION lib/${PROJECT_NAME})
 
 
