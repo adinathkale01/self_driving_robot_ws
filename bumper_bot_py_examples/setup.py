@@ -29,7 +29,10 @@ setup(
             'simple_parameter = bumper_bot_py_examples.simple_parameter:main',
             'simple_turtlesim_kinematics = bumper_bot_py_examples.turtlesim_kinematics:main',
             'simple_tf_kinematics = bumper_bot_py_examples.simple_tf_kinematics:main',
-            'simple_service_server = bumper_bot_py_examples.simple_service_server:main'
+            'simple_service_server = bumper_bot_py_examples.simple_service_server:main',
+            'simple_action_server = bumper_bot_py_examples.simple_action_server:main',
+            'simple_action_client = bumper_bot_py_examples.simple_action_client:main',
+            'simple_lifecycle_node = bumper_bot_py_examples.simple_lifecycle_node:main'
             
         ],
     },
