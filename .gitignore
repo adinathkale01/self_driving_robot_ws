@@ -17,3 +17,7 @@ __pycache__/
 mygitssh
 mygitssh
 mygitssh.pub
+
+.DS_Store
+
+rqt_virtual_joystick/
