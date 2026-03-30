@@ -40,7 +40,7 @@ install(PROGRAMS
 )
 
 install(
-  DIRECTORY maps
+  DIRECTORY config launch maps rviz
   DESTINATION share/${PROJECT_NAME}
 
 )

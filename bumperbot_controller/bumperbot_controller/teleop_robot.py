@@ -14,7 +14,7 @@ move_bindings = {
 
 # Velocities
 LINEAR_SPEED = 0.2  # m/s
-ANGULAR_SPEED = 0.5 # rad/s
+ANGULAR_SPEED = 0.2 # rad/s
 
 def get_key():
     tty.setraw(sys.stdin.fileno())
@@ -61,6 +61,7 @@ class KeyboardTeleop(Node):
                     self.pub.publish(msg)
                     self.get_logger().info(f"Linear: {msg.twist.linear.x:.2f}, Angular: {msg.twist.angular.z:.2f}")
                 elif key == '\x03':  # Ctrl-C
+                    self.current_key = None
                     break
                 else:
                     self.current_key = None
@@ -72,6 +73,7 @@ class KeyboardTeleop(Node):
             msg.header.stamp = self.get_clock().now().to_msg()
             msg.twist.linear.x = 0.0
             msg.twist.angular.z = 0.0
+            
             self.pub.publish(msg)
             termios.tcsetattr(sys.stdin, termios.TCSADRAIN, settings)
 
